@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title slot="primary">
+      Menú de Cervezas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="ion-padding">
+    <ion-list>
+      <ion-item *ngFor="let cerveza of cervezas" (click)="cervezaTapped(cerveza)">
+        <ion-thumbnail slot="start">
+          <img src="{{cerveza.image}}">
+        </ion-thumbnail>
+        <ion-label> {{cerveza.name}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-toolbar>
+  <img src="/assets/images/4Vientos_iconoBlanco.PNG" />
+  <ion-title slot="primary">
+    Desarrollo de Interfaces
+  </ion-title>
+</ion-toolbar>

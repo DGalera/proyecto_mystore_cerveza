@@ -1,11 +1,22 @@
-<app-navbar></app-navbar>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-9 mx-auto">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
-
-<app-footer></app-footer>
+<ion-app>
+  <ion-menu side="end" type="push">
+    <ion-header>
+      <ion-toolbar color="danger">
+        <ion-title>Cervecitas Galerita</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-label [routerLink]="['home']">Lista</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="add" slot="start"></ion-icon>
+          <ion-label [routerLink]="['create']">Añadir cerveza</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
+</ion-app>
