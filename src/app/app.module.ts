@@ -1,45 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
 
-// Import for loading & configuring in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { CervezaItemComponent } from './cerveza-item/cerveza-item.component';
-import { CervezaDetailComponent } from './cerveza-detail/cerveza-detail.component';
-import { CervezaService } from './shared/cerveza.service';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
-import { CervezaEditComponent } from './cerveza-edit/cerveza-edit.component';
-import { CervezaData } from './shared/cerveza-data';
-import { HttpClientModule } from '@angular/common/http';
-import { CervezaNewComponent } from './cerveza-new/cerveza-new.component';
-
-
+import { IonicStorageModule } from '@ionic/storage';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    FooterComponent,
-    NavbarComponent,
-    CervezaItemComponent,
-    CervezaDetailComponent,
-    CervezaEditComponent,
-    CervezaNewComponent,
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
+    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
-    BrowserModule,
-    HttpClientModule,
-    InMemoryWebApiModule.forRoot(CervezaData)
+    
   ],
-  providers: [CervezaService],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

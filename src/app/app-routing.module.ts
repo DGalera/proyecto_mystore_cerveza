@@ -1,21 +1,43 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CervezaDetailComponent } from './cerveza-detail/cerveza-detail.component';
-import { CervezaEditComponent } from './cerveza-edit/cerveza-edit.component';
-import { CervezaNewComponent } from './cerveza-new/cerveza-new.component';
-
+import { PreloadAllModules, RouterModule, Routes } from
+  '@angular/router';
 const routes: Routes = [
-    {path: '',                    component: HomeComponent},
-    {path: 'cervezas/:id/new', component: CervezaNewComponent},
-    {path: 'cervezas/:cervezaId', component: CervezaDetailComponent},
-    {path: 'cervezas/:id/edit', component: CervezaEditComponent}
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home', loadChildren: () => import('./home/home.module').then(
+      m => m.HomePageModule)
+  },
+  {
+    path: 'details/:id', loadChildren:
+      './details/details.module#DetailsPageModule'
+  },
+  {
+    path: 'create', loadChildren:
+      './create/create.module#CreatePageModule'
+  },
+  {
+    path: 'edit/:id', loadChildren: './edit/edit.module#EditPageModule'
+  },
+  {
+    path: 'create',
+    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
+  },
+  {
+    path: 'details',
+    loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
+  },
+  {
+    path: 'edit',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
 ];
 
 @NgModule({
-    imports: [ RouterModule.forRoot(routes) ], 
-    exports: [ RouterModule ]
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules
+    })
+  ],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {
-
-}
+export class AppRoutingModule { }
