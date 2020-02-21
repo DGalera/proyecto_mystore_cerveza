@@ -1,9 +1,39 @@
-import { Injectable } from '@angular/core';
+
 import { ICerveza } from '../share/interfaces';
 import { Storage } from '@ionic/storage';
+
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 @Injectable({
   providedIn: 'root'
 })
+export class CervezadbService {
+  constructor(
+    private firestore: AngularFirestore
+  ) { }
+  create_Cerveza(record) {
+    return this.firestore.collection('cervezas').add(record);
+  }
+  read_CervezaById(record_id) {
+    return this.firestore.doc('cervezas/' + record_id).valueChanges();
+  }
+  read_Cervezas() {
+    return this.firestore.collection('cervezas').snapshotChanges();
+  }
+  update_Cerveza(recordID, record) {
+    this.firestore.doc('cervezas/' + recordID).update(record);
+  }
+  delete_Cerveza(record_id) {
+    this.firestore.doc('cervezas/' + record_id).delete();
+  }
+}
+
+
+/*@Injectable({
+  providedIn: 'root'
+})
+
 export class CervezadbService {
   auxCerveza: ICerveza;
   auxCervezaList: ICerveza[] = [];
@@ -62,4 +92,4 @@ export class CervezadbService {
         error => console.error(error)
       );
   }
-}
+}*/

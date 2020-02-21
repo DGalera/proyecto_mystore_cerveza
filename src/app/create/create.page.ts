@@ -34,7 +34,7 @@ export class CreatePage implements OnInit {
           icon: 'save',
           text: 'ACEPTAR',
           handler: () => {
-            this.saveMovie();
+            this.CreateRecord();
             this.router.navigate(['home']);
           }
         }, {
@@ -48,12 +48,13 @@ export class CreatePage implements OnInit {
     });
     toast.present();
   }
-  saveMovie() {
-    this.cerveza = this.cervezaForm.value;
-    let nextKey = this.cerveza.name.trim();
-    this.cerveza.id = nextKey;
-    this.cervezadbService.setItem(nextKey, this.cerveza);
-    console.warn(this.cervezaForm.value);
+
+  CreateRecord() {
+    let record = this.cervezaForm.value;
+    this.cervezadbService.create_Cerveza(record).catch(error => {
+      console.log(error);
+    });
   }
+
 }
 

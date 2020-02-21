@@ -19,9 +19,22 @@ export class DetailsPage implements OnInit {
   ) { }
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-    this.cervezadbService.getItem(this.id).then(
+    /*
+    this.cervezadbService.read_CervezaById(this.id).subscribe(
       (data: ICerveza) => this.cerveza = data
-    );
+    );*/
+    this.cervezadbService.read_Cervezas().subscribe(data => {
+      data.map(e => {
+        if (e.payload.doc.id == this.id) {
+          this.cerveza = {
+            id: e.payload.doc.id,
+            name: e.payload.doc.data()['name'],
+            image: e.payload.doc.data()['image'],
+            description: e.payload.doc.data()['description']
+          };
+        }
+      })
+    })
   }
 
   editRecord(cerveza) {
@@ -37,7 +50,7 @@ export class DetailsPage implements OnInit {
           icon: 'delete',
           text: 'ACEPTAR',
           handler: () => {
-            this.cervezadbService.remove(id);
+            this.cervezadbService.delete_Cerveza(id);
             this.router.navigate(['home']);
           }
         }, {
