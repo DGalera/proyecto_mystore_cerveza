@@ -30,22 +30,10 @@ export class EditPage implements OnInit {
       description: new FormControl(''),
     });
 
-    this.cervezadbService.read_Cervezas().subscribe(data => {
-      data.map(e => {
-        if (e.payload.doc.id == this.id) {
-            this.cervezaForm.get('name').setValue(e.payload.doc.data()['name']);
-            this.cervezaForm.get('image').setValue(e.payload.doc.data()['image']);
-            this.cervezaForm.get('description').setValue(e.payload.doc.data()['description']);         
-        }
-      })
-    });
-
-
-
-
-    
-
-
+    this.cervezadbService.read_CervezaById(this.id)
+      .subscribe(
+        (cerveza: ICerveza) => this.displayCerveza(cerveza),
+      );
   }
   async onSubmit() {
     const toast = await this.toastController.create({
@@ -74,7 +62,16 @@ export class EditPage implements OnInit {
 
   UpdateRecord() {
     let record = this.cervezaForm.value;
-    this.cervezadbService.update_Cerveza(this.id, record);
+    this.cervezadbService.update_Cerveza(record, this.id);
   }
+
+  displayCerveza(cerveza: ICerveza){
+    this.cerveza = cerveza;
+    this.cervezaForm.get('name').setValue(cerveza.name);
+    this.cervezaForm.get('image').setValue(cerveza.image);
+    this.cervezaForm.get('description').setValue(cerveza.description);
+  }
+
+
 
 }

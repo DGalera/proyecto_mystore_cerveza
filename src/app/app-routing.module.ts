@@ -8,7 +8,7 @@ const routes: Routes = [
       m => m.HomePageModule)
   },
   {
-    path: 'details/:id', loadChildren:
+    path: 'details/:_id', loadChildren:
       './details/details.module#DetailsPageModule'
   },
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
       './create/create.module#CreatePageModule'
   },
   {
-    path: 'edit/:id', loadChildren: './edit/edit.module#EditPageModule'
+    path: 'edit/:_id', loadChildren: './edit/edit.module#EditPageModule'
   },
   {
     path: 'create',

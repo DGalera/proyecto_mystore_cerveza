@@ -1,10 +1,93 @@
 
 import { ICerveza } from '../share/interfaces';
 import { Storage } from '@ionic/storage';
-
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CervezadbService {
+  private cervezasUrl = 'http://localhost:8000/cervezas';
+
+  constructor(
+    private http: HttpClient
+  ) { }
+  
+  read_Cervezas(): Observable<ICerveza[]>{
+    return this.http.get<ICerveza[]>(this.cervezasUrl)
+      .pipe(
+        tap(data => console.log(JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  read_CervezaById(id: any): Observable<ICerveza> {
+    const url = this.cervezasUrl + "/" + id;
+    return this.http.get<ICerveza>(url)
+      .pipe(
+        tap(data => console.log('getCerveza: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  create_Cerveza(cerveza): Observable<ICerveza> {
+    return this.http.post<ICerveza>(this.cervezasUrl, cerveza)
+      .pipe(
+        tap(data => console.log('createCerveza: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  delete_Cerveza(id: string): Observable<{}> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = this.cervezasUrl + "/"+ id;
+    return this.http.delete(url, { headers: headers })
+      .pipe(
+        tap(data => console.log('deleteCerveza: ' + id)),
+        catchError(this.handleError)
+      );
+  }
+
+  update_Cerveza(cerveza: ICerveza, id: string): Observable<ICerveza> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.cervezasUrl}/${id}`;
+    return this.http.put<ICerveza>(url, cerveza, { headers: headers })
+      .pipe(
+        tap(() => console.log('updateCerveza: ' + id)),
+        // Return the product on an update
+        map(() => cerveza),
+        catchError(this.handleError)
+      );
+  }
+
+
+  private handleError(err) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
+    }
+    console.error(err);
+    return throwError(errorMessage);
+  }
+}
+
+
+
+/*
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +110,7 @@ export class CervezadbService {
   delete_Cerveza(record_id) {
     this.firestore.doc('cervezas/' + record_id).delete();
   }
-}
+}*/
 
 
 /*@Injectable({

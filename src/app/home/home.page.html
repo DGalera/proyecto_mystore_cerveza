@@ -11,11 +11,11 @@
 <ion-content>
   <div class="ion-padding">
     <ion-list>
-      <ion-item *ngFor="let cerveza of cervezas" (click)="cervezaTapped(cerveza)">
+      <ion-item *ngFor="let cerveza of cervezas">
         <ion-thumbnail slot="start">
           <img src="{{cerveza.image}}">
         </ion-thumbnail>
-        <ion-label> {{cerveza.name}}</ion-label>
+        <ion-label [routerLink]="['/details', cerveza._id]"> {{cerveza.name}}</ion-label>
       </ion-item>
     </ion-list>
   </div>

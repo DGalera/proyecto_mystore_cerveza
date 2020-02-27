@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CervezadbService } from '../core/cervezadb.service';
 import { ICerveza } from '../share/interfaces';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
-  id: string;
+  public id: string;
   public cerveza: ICerveza;
   constructor(
     private activatedrouter: ActivatedRoute,
@@ -18,27 +20,18 @@ export class DetailsPage implements OnInit {
     public toastController: ToastController
   ) { }
   ngOnInit() {
-    this.id = this.activatedrouter.snapshot.params.id;
-    /*
+    this.id = this.activatedrouter.snapshot.params._id;
+
     this.cervezadbService.read_CervezaById(this.id).subscribe(
       (data: ICerveza) => this.cerveza = data
-    );*/
-    this.cervezadbService.read_Cervezas().subscribe(data => {
-      data.map(e => {
-        if (e.payload.doc.id == this.id) {
-          this.cerveza = {
-            id: e.payload.doc.id,
-            name: e.payload.doc.data()['name'],
-            image: e.payload.doc.data()['image'],
-            description: e.payload.doc.data()['description']
-          };
-        }
-      })
-    })
+    );
+
+
+
   }
 
   editRecord(cerveza) {
-    this.router.navigate(['edit', cerveza.id])
+    this.router.navigate(['edit', cerveza._id])
   }
   async removeRecord(id) {
     const toast = await this.toastController.create({
@@ -50,7 +43,7 @@ export class DetailsPage implements OnInit {
           icon: 'delete',
           text: 'ACEPTAR',
           handler: () => {
-            this.cervezadbService.delete_Cerveza(id);
+            this.cervezadbService.delete_Cerveza(this.id);
             this.router.navigate(['home']);
           }
         }, {

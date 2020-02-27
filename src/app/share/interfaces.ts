@@ -1,5 +1,5 @@
 export interface ICerveza {
-    id: string;
+    _id: string;
     name: string;
     image: string;
     description: string;

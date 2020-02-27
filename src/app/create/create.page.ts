@@ -51,9 +51,7 @@ export class CreatePage implements OnInit {
 
   CreateRecord() {
     let record = this.cervezaForm.value;
-    this.cervezadbService.create_Cerveza(record).catch(error => {
-      console.log(error);
-    });
+    this.cervezadbService.create_Cerveza(record);
   }
 
 }

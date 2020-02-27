@@ -16,6 +16,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
+import { HttpClientModule } from '@angular/common/http';
+import { CervezadbService } from './core/cervezadb.service';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,10 +32,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
+    CervezadbService,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
