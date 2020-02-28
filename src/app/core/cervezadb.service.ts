@@ -32,7 +32,9 @@ export class CervezadbService {
     const url = this.cervezasUrl + "/" + id;
     return this.http.get<ICerveza>(url)
       .pipe(
-        tap(data => console.log('getCerveza: ' + JSON.stringify(data))),
+        tap(data => {
+          console.log('getCerveza: ' + JSON.stringify(data))
+        }),
         catchError(this.handleError)
       );
   }

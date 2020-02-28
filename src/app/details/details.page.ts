@@ -13,6 +13,7 @@ import { ToastController } from '@ionic/angular';
 export class DetailsPage implements OnInit {
   public id: string;
   public cerveza: ICerveza;
+  hasCerveza=false;
   constructor(
     private activatedrouter: ActivatedRoute,
     private router: Router,
@@ -23,7 +24,10 @@ export class DetailsPage implements OnInit {
     this.id = this.activatedrouter.snapshot.params._id;
 
     this.cervezadbService.read_CervezaById(this.id).subscribe(
-      (data: ICerveza) => this.cerveza = data
+      (data: any) =>{ 
+        this.cerveza = data.result
+      this.hasCerveza=true
+      }
     );
 
 
@@ -43,7 +47,7 @@ export class DetailsPage implements OnInit {
           icon: 'delete',
           text: 'ACEPTAR',
           handler: () => {
-            this.cervezadbService.delete_Cerveza(this.id);
+            this.cervezadbService.delete_Cerveza(this.id).subscribe();
             this.router.navigate(['home']);
           }
         }, {

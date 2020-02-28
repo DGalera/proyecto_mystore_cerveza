@@ -22,7 +22,7 @@ export class EditPage implements OnInit {
     public toastController: ToastController
   ) { }
   ngOnInit() {
-    this.id = this.activatedrouter.snapshot.params.id;
+    this.id = this.activatedrouter.snapshot.params._id;
 
     this.cervezaForm = new FormGroup({
       name: new FormControl(''),
@@ -32,7 +32,7 @@ export class EditPage implements OnInit {
 
     this.cervezadbService.read_CervezaById(this.id)
       .subscribe(
-        (cerveza: ICerveza) => this.displayCerveza(cerveza),
+        (data: any) => this.displayCerveza(data),
       );
   }
   async onSubmit() {
@@ -61,15 +61,15 @@ export class EditPage implements OnInit {
   }
 
   UpdateRecord() {
-    let record = this.cervezaForm.value;
-    this.cervezadbService.update_Cerveza(record, this.id);
+    let record = this.cervezaForm.value as (ICerveza);
+    this.cervezadbService.update_Cerveza(record, this.id).subscribe();
   }
 
-  displayCerveza(cerveza: ICerveza){
-    this.cerveza = cerveza;
-    this.cervezaForm.get('name').setValue(cerveza.name);
-    this.cervezaForm.get('image').setValue(cerveza.image);
-    this.cervezaForm.get('description').setValue(cerveza.description);
+  displayCerveza(data: any){
+    this.cerveza = data.result;
+    this.cervezaForm.get('name').setValue(this.cerveza.name);
+    this.cervezaForm.get('image').setValue(this.cerveza.image);
+    this.cervezaForm.get('description').setValue(this.cerveza.description);
   }
 
 

@@ -50,8 +50,8 @@ export class CreatePage implements OnInit {
   }
 
   CreateRecord() {
-    let record = this.cervezaForm.value;
-    this.cervezadbService.create_Cerveza(record);
+    let record = this.cervezaForm.value as (ICerveza);
+    this.cervezadbService.create_Cerveza(record).subscribe();
   }
 
 }

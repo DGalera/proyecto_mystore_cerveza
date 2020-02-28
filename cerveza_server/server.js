@@ -54,6 +54,7 @@ app.get('/cervezas', (req, res) => {
 
 //Filtrado de datos. URI dinámicos
 app.get('/cervezas/:id', (req,res)=>{
+    
     Cerveza.findById(req.params.id).then(result=>{
         let data;
         if(result){
